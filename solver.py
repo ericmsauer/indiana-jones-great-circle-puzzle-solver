@@ -49,7 +49,7 @@ def backtrack_min_relics(grid, placements, covered, best_solution_length=float('
     for x in range(len(grid)):
         for y in range(len(grid[0])):
             if grid[x][y] == 'X':  # Try placing a relic at each hole
-                for direction in ['left', 'right']:
+                for direction in ['right', 'left']:
                     new_grid, filled = apply_relic(grid, x, y, direction)
 
                     # Calculate new holes filled by this placement
@@ -92,7 +92,7 @@ def save_solution(grid, file_path):
     print(f"Solution saved to {solution_file}")
 
 def main():
-    grid_files = ['tests/test-6.txt']  # List of all grid files
+    grid_files = ['data/a.txt', 'data/b.txt', 'data/c.txt', 'data/d.txt']  # List of all grid files
     for grid_file in grid_files:
         print(f"Solving puzzle: {grid_file}")
         grid = parse_grid(grid_file)
