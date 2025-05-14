@@ -38,9 +38,10 @@ def apply_relic(grid, x, y, direction):
     new_grid[x][y] = 'L' if direction == 'left' else 'R'  # Mark relic placement
     return new_grid, filled
 
-def backtrack_min_relics(grid, placements, covered):
+def backtrack_min_relics(grid, placements, covered, best_solution_length=float('inf')):
     """Recursive backtracking to find the minimum number of relics."""
     if is_fully_covered(grid):
+        print(f"Found a solution with placements: {len(placements)}")
         return placements[:]  # Return a copy of the placements list
 
     best_solution = None
@@ -58,12 +59,17 @@ def backtrack_min_relics(grid, placements, covered):
                     if not new_filled:
                         continue
 
+                    # Skip if the current placements exceed the best solution length
+                    if len(placements) + 1 >= best_solution_length:
+                        continue
+
                     # Update the covered set with the new filled positions
                     placements.append((x, y, direction))
-                    result = backtrack_min_relics(new_grid, placements, covered | new_filled)
+                    result = backtrack_min_relics(new_grid, placements, covered | new_filled, best_solution_length)
                     if result:  # If a solution is found, check if it's better
                         if best_solution is None or len(result) < len(best_solution):
                             best_solution = result
+                            best_solution_length = len(best_solution)  # Update the best solution length
                     placements.pop()  # Backtrack if no solution
     return best_solution
 
@@ -86,7 +92,7 @@ def save_solution(grid, file_path):
     print(f"Solution saved to {solution_file}")
 
 def main():
-    grid_files = ['images/a.txt', 'images/b.txt', 'images/c.txt', 'images/d.txt']  # List of all grid files
+    grid_files = ['tests/test-6.txt']  # List of all grid files
     for grid_file in grid_files:
         print(f"Solving puzzle: {grid_file}")
         grid = parse_grid(grid_file)
