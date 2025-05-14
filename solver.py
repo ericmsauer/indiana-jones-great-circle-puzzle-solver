@@ -86,18 +86,20 @@ def save_solution(grid, file_path):
     print(f"Solution saved to {solution_file}")
 
 def main():
-    grid_file = 'images/a.txt'  # Solve for one puzzle
-    grid = parse_grid(grid_file)
-    try:
-        start_time = time.time()  # Start the timer
-        placements, updated_grid = solve_single_puzzle(grid)
-        end_time = time.time()  # End the timer
-        elapsed_time = end_time - start_time  # Calculate elapsed time
-        print(f"Placements: {placements}")
-        print(f"Time taken: {elapsed_time:.2f} seconds")  # Display elapsed time
-        save_solution(updated_grid, grid_file)
-    except ValueError as e:
-        print(f"Could not solve the grid: {e}")
+    grid_files = ['images/a.txt', 'images/b.txt', 'images/c.txt', 'images/d.txt']  # List of all grid files
+    for grid_file in grid_files:
+        print(f"Solving puzzle: {grid_file}")
+        grid = parse_grid(grid_file)
+        try:
+            start_time = time.time()  # Start the timer
+            placements, updated_grid = solve_single_puzzle(grid)
+            end_time = time.time()  # End the timer
+            elapsed_time = end_time - start_time  # Calculate elapsed time
+            print(f"Placements: {placements}")
+            print(f"Time taken for {grid_file}: {elapsed_time:.2f} seconds")  # Display elapsed time
+            save_solution(updated_grid, grid_file)
+        except ValueError as e:
+            print(f"Could not solve the grid {grid_file}: {e}")
 
 if __name__ == "__main__":
     main()
